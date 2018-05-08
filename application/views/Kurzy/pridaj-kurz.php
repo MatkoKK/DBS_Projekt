@@ -12,34 +12,26 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo $action; ?> Temperature <a href="<?php echo site_url('temperatures/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
+                <div class="panel-heading"><?php echo $action; ?> Kurzy <a href="<?php echo site_url('Kurzy/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
                 <div class="panel-body">
                     <form method="post" action="" class="form">
                         <div class="form-group">
-                            <label for="title">Date</label>
-                            <input type="text" class="form-control" name="measurement_date" id="measurement_date" placeholder="Enter date" value="<?php echo !empty($post['measurement_date'])?$post['measurement_date']:''; ?>">
-                            <?php echo form_error('measurement_date','<p class="help-block text-danger">','</p>'); ?>
+                            <label for="title">nazov_kurzu</label>
+                            <input type="text" class="form-control" name="nazov_kurzu" id="nazov_kurzu" placeholder="Zadaj názov kurzu" value="<?php echo !empty($post['nazov_kurzu'])?$post['nazov_kurzu']:''; ?>">
+                            <?php echo form_error('nazov_kurzu','<p class="help-block text-danger">','</p>'); ?>
                         </div>
                         <div class="form-group">
-                            <label for="title">Temperature</label>
-                            <input type="text" class="form-control" name="temperature" placeholder="Enter temperature" value="<?php echo !empty($post['temperature'])?$post['temperature']:''; ?>">
-                            <?php echo form_error('temperature','<p class="help-block text-danger">','</p>'); ?>
+                            <label for="title">Obtiaznosť</label>
+                            <input type="text" class="form-control" name="level" placeholder="Zadaj obtiažnosť" value="<?php echo !empty($post['level'])?$post['level']:''; ?>">
+                            <?php echo form_error('level','<p class="help-block text-danger">','</p>'); ?>
                         </div>
                         <div class="form-group">
-                            <label for="title">Sky</label>
-                            <input type="text" class="form-control" name="sky" placeholder="Enter sky" value="<?php echo !empty($post['sky'])?$post['sky']:''; ?>">
+                            <label for="title">Cena</label>
+                            <input type="text" class="form-control" name="cena" placeholder="Zadaj cenu" value="<?php echo !empty($post['cena'])?$post['cena']:''; ?>">
                             <?php echo form_error('sky','<p class="help-block text-danger">','</p>'); ?>
                         </div>
 
-                        <div class="form-group">
-                            <?php echo form_label('User'); ?>
-                            <?php echo form_dropdown('user', $users, $users_selected, 'class="form-control"'); ?>
-                        </div>
-                        <div class="form-group">
-                            <label for="content">Description</label>
-                            <textarea name="description" class="form-control" placeholder="Enter description"><?php echo !empty($post['description'])?$post['description']:''; ?></textarea>
-                            <?php echo form_error('description','<p class="text-danger">','</p>'); ?>
-                        </div>
+
                         <input type="submit" name="postSubmit" class="btn btn-primary" value="Submit"/>
                     </form>
                 </div>

@@ -5,7 +5,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="/">Kurzy</a></li>
-            <li><a href="/lektor">DB lektorov</a></li>
+            <li><a href="#">DB lektorov</a></li>
             <li><a href="#">Page 2</a></li>
             <li><a href="#">Page 3</a></li>
         </ul>

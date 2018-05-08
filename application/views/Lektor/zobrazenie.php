@@ -14,26 +14,25 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default ">
-                <div class="panel-heading">Kurzy <a href="<?php echo site_url('kurzy/add/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
+                <div class="panel-heading">Kurzy <a href="<?php echo site_url('Lektor/PridajLektora/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
                 <div class="panel-heading">PridajZakaznika <a href="<?php echo site_url('zakaznik/pridaj_zakaznika/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th width="5%">ID</th>
-                        <th width="30%">Nazov</th>
-                        <th width="20%">Level</th>
-                        <th width="15%">Cena</th>
+                        <th width="30%">Meno</th>
+                        <th width="20%">Priezvisko</th>
+
 
                     </tr>
                     </thead>
                     <tbody id="userData">
-                    <?php if(!empty($kurzy)): foreach($kurzy as $kurz): ?>
+                    <?php if(!empty($lektors)): foreach($lektors as $lektor): ?>
                         <tr>
-                            <td><?php echo '#'.$kurz['idKurzy']; ?></td>
-                            <td><?php echo $kurz['Nazov']; ?></td>
-                            <td><?php echo $kurz['Level']; ?></td>
-                            <td><?php echo $kurz['Cena'];?></td>
-                            <td><a href="<?php echo site_url('kurzy/pridaj_lektora'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
+                            <td><?php echo '#'.$lektor['idLektor']; ?></td>
+                            <td><?php echo $lektor['Meno']; ?></td>
+                            <td><?php echo $lektor['Priezvisko']; ?></td>
+                            <td><a href="<?php echo site_url('lektor/LektorKurz'."/?id=".$lektor['idLektor']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">No kurses</td></tr>
