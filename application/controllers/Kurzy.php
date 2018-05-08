@@ -96,19 +96,20 @@ class Kurzy extends CI_Controller {
             if (isset($_GET['id']))
             {
                 $idkurzu = $_GET['id'];
-                echo $idkurzu;
+
             }
 
 
             //priprava dat pre vlozenie
             $postData = array(
-                'idLektor' => $this->input->post('idlektor'),
+                'idLektor' => $this->input->post('idecko'),
                 'idKurz' => $idkurzu,
             );
 
-            //validacia zaslanych dat
+
+
             //vlozenie dat
-                $insertLektor = $this->Kurzy_model->insert($postData);
+                $insertLektor = $this->Kurzy_model->insertLektor($postData);
 
                 if($insertLektor){
                     $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
@@ -133,5 +134,9 @@ class Kurzy extends CI_Controller {
     }
 
 
+    public function odstran_lektora(){
+
+
+    }
 
 }

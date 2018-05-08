@@ -16,8 +16,8 @@
                 <div class="panel-body">
                     <form method="post" action="" class="form">
                         <div class="form-group">
-                            <?php echo form_label('meno'); ?>
-                            <?php echo form_dropdown('idLektor', $users, $users_selected, 'class="form-control"'); ?>
+                            <?php echo form_label('Idcko'); ?>
+                            <?php echo form_dropdown('idecko', $users, $users_selected, 'class="form-control"'); ?>
                         </div>
 
 

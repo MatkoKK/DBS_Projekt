@@ -45,7 +45,7 @@ public function delete($id){
             $dropdowns = $query->result();
             foreach ($dropdowns as $dropdown)
             {
-                $dropdownlist[$dropdown->idLektor] = $dropdown->celeMeno;
+                $dropdownlist[$dropdown->idLektor] = $dropdown->celeMeno ;
 
             }
             $dropdownlist[''] = 'Vyber lektora ... ';
