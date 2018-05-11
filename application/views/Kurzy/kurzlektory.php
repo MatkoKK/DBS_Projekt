@@ -28,11 +28,11 @@
                     </thead>
                     <tbody id="userData">
                     <?php if(!empty($kurzs)): foreach($kurzs as $kurz): ?>
-                        <tr>
+                        <tr><td><?php echo $kurz['id']; ?></td>
                             <td><?php echo $kurz['meno']; ?></td>
                             <td><?php echo $kurz['priezvisko']; ?></td>
                             <td><?php echo $kurz['kurz']; ?></td>
-
+                            <td><a href="<?php echo site_url('kurzy/odstran_lektora'."/?id=".$kurz['idKurz']."&idRow=".$kurz['id']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">No kurses</td></tr>

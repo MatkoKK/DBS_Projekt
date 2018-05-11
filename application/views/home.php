@@ -34,7 +34,9 @@
                             <td><?php echo $kurz['Level']; ?></td>
                             <td><?php echo $kurz['Cena'];?></td>
                             <td><a href="<?php echo site_url('kurzy/pridaj_lektora'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-user pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('kurzy/odstran_lektora'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/edit'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/KurzLektory'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
+
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">No kurses</td></tr>

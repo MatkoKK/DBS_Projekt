@@ -30,11 +30,11 @@ class Zakaznik extends CI_Controller {
 
         }
 
-        $data['kurzy'] = $this->Kurzy_model->getRows("");
-        $data['title'] = 'Kurzy zoznam';
+        $data['zakaznici'] = $this->Zakaznik_model->getRows("");
+        $data['title'] = 'Zákazníci zoznam';
 
         $this->load->view('template/header');
-        $this->load->view('home',$data);
+        $this->load->view('Zakaznik/zoznam-zakaznikov',$data);
         $this->load->view('template/footer');
     }
 
@@ -46,18 +46,16 @@ class Zakaznik extends CI_Controller {
         //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
         if($this->input->post('postSubmit')){
             //definicia pravidiel validacie
-            $this->form_validation->set_rules('measurement_date', 'date of measurement', 'required');
-            $this->form_validation->set_rules('temperature', 'temperature', 'required');
-            $this->form_validation->set_rules('sky', 'sky value', 'required');
-            $this->form_validation->set_rules('user', 'user id', 'required');
+            $this->form_validation->set_rules('meno', 'meno', 'required');
+
+
 
             //priprava dat pre vlozenie
             $postData = array(
-                'measurement_date' => $this->input->post('measurement_date'),
-                'temperature' => $this->input->post('temperature'),
-                'sky' => $this->input->post('sky'),
-                'user' => $this->input->post('user'),
-                'description' => $this->input->post('description'),
+                'meno' => $this->input->post('meno'),
+                'priezvisko' => $this->input->post('priezvisko'),
+                'ico' => $this->input->post('ico'),
+
             );
 
             //validacia zaslanych dat
@@ -92,35 +90,44 @@ class Zakaznik extends CI_Controller {
         //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
         if($this->input->post('postSubmit')){
             //definicia pravidiel validacie
-            $this->form_validation->set_rules('measurement_date', 'date of measurement', 'required');
-            $this->form_validation->set_rules('temperature', 'temperature', 'required');
-            $this->form_validation->set_rules('sky', 'sky value', 'required');
-            $this->form_validation->set_rules('user', 'user id', 'required');
+            $this->form_validation->set_rules('meno', 'meno', 'required');
+
 
             //priprava dat pre vlozenie
+            if($this->input->post('jefirma')=="")
             $postData = array(
-                'measurement_date' => $this->input->post('measurement_date'),
-                'temperature' => $this->input->post('temperature'),
-                'sky' => $this->input->post('sky'),
-                'user' => $this->input->post('user'),
-                'description' => $this->input->post('description'),
+                'firma_meno' => $this->input->post('meno'),
+                'priezvisko' => $this->input->post('priezvisko'),
+                'ICO' => $this->input->post('ico'),
+                'JeFirma' => "0");
+
+
+            else
+            $postData = array(
+                'firma_meno' => $this->input->post('meno'),
+                'priezvisko' => $this->input->post('priezvisko'),
+                'ICO' => $this->input->post('ico'),
+                'JeFirma' => $this->input->post('jefirma'),
+
             );
+
+
 
             //validacia zaslanych dat
             if($this->form_validation->run() == true){
                 //vlozenie dat
-                $insert = $this->Temperatures_model->insert($postData);
+                $insert = $this->Zakaznik_model->pridaj_zakaznika($postData);
 
                 if($insert){
                     $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
-                    redirect('/temperatures');
+                    redirect('/Zakaznik/pridaj_zakaznika');
                 }else{
                     $data['error_msg'] = 'Some problems occurred, please try again.';
                 }
             }
         }
-        $data['users'] = $this->Zakaznik_model->get_users_dropdown();
-        $data['users_selected'] = '';
+
+
         $data['post'] = $postData;
         $data['title'] = 'Create Temperature';
         $data['action'] = 'Add';

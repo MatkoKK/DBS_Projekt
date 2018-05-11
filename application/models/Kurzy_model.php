@@ -5,7 +5,7 @@
 class Kurzy_model extends CI_Model {
 
 
-    function getRows($id = "")
+    function getRows($id)
 {
     if (!empty($id)) {
         $query = $this->db->get_where('kurzy', array('idKurzy' => $id));
@@ -20,7 +20,7 @@ class Kurzy_model extends CI_Model {
 
 public function update($data,$id){
     if(!empty($data) && !empty($id)){
-        $update = $this->db->update('kurzy',$data,array('id'=>$id));
+        $update = $this->db->update('kurzy',$data,array('idKurzy'=>$id));
         return $update?true:false;
 
     }
@@ -71,6 +71,32 @@ public function delete($id){
         }else{
             return false;
         }
+    }
+
+
+    function KurzyLektora($id) {
+        if(empty($id)){
+            $this->db->select('lektor_kurz.id as id,lektor_kurz.idKurz as idKurz,lektor.Meno as meno,lektor.Priezvisko as priezvisko, kurzy.Nazov as kurz')
+                ->from('lektor_kurz')
+                ->join('lektor','lektor_kurz.idLektor = lektor.idLektor')
+                ->join('kurzy','lektor_kurz.idKurz = kurzy.idKurzy');
+            $query = $this->db->get();
+            return $query->result_array();
+        }
+        else {
+            $this->db->select('lektor_kurz.id as id ,lektor_kurz.idKurz as idKurz,lektor.Meno as meno,lektor.Priezvisko as priezvisko, kurzy.Nazov as kurz')
+                ->join('lektor','lektor_kurz.idLektor = lektor.idLektor')
+                ->join('kurzy','lektor_kurz.idKurz = kurzy.idKurzy');
+            $query = $this->db->get_where('lektor_kurz', array('kurzy.idKurzy' => $id));
+            return $query->result_array();
+
+        }
+    }
+
+    public function vymazLektora($id){
+        $delete = $this->db->delete('lektor_kurz',array('id'=>$id));
+        return $delete?true:false;
+
     }
 
 }

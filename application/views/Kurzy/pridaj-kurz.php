@@ -17,17 +17,17 @@
                     <form method="post" action="" class="form">
                         <div class="form-group">
                             <label for="title">nazov_kurzu</label>
-                            <input type="text" class="form-control" name="nazov_kurzu" id="nazov_kurzu" placeholder="Zadaj názov kurzu" value="<?php echo !empty($post['nazov_kurzu'])?$post['nazov_kurzu']:''; ?>">
+                            <input type="text" class="form-control" name="nazov_kurzu" id="nazov_kurzu" placeholder="Zadaj názov kurzu" value="<?php echo !empty($post['Nazov'])?$post['Nazov']:''; ?>">
                             <?php echo form_error('nazov_kurzu','<p class="help-block text-danger">','</p>'); ?>
                         </div>
                         <div class="form-group">
                             <label for="title">Obtiaznosť</label>
-                            <input type="text" class="form-control" name="level" placeholder="Zadaj obtiažnosť" value="<?php echo !empty($post['level'])?$post['level']:''; ?>">
+                            <input type="text" class="form-control" name="level" placeholder="Zadaj obtiažnosť" value="<?php echo !empty($post['Level'])?$post['Level']:''; ?>">
                             <?php echo form_error('level','<p class="help-block text-danger">','</p>'); ?>
                         </div>
                         <div class="form-group">
                             <label for="title">Cena</label>
-                            <input type="text" class="form-control" name="cena" placeholder="Zadaj cenu" value="<?php echo !empty($post['cena'])?$post['cena']:''; ?>">
+                            <input type="text" class="form-control" name="cena" placeholder="Zadaj cenu" value="<?php echo !empty($post['Cena'])?$post['Cena']:''; ?>">
                             <?php echo form_error('sky','<p class="help-block text-danger">','</p>'); ?>
                         </div>
 

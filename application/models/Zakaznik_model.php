@@ -8,11 +8,11 @@ class Zakaznik_model extends CI_Model {
     function getRows($id = "")
     {
         if (!empty($id)) {
-            $query = $this->db->get_where('kurzy', array('idKurzy' => $id));
+            $query = $this->db->get_where('zakazik', array('idZakaznik' => $id));
             return $query->result_array();
 
         } else {
-            $query = $this->db->get('kurzy');
+            $query = $this->db->get('zakazik');
             return $query->result_array();
         }
     }
@@ -64,6 +64,19 @@ class Zakaznik_model extends CI_Model {
         }
     }
 
+
+
+
+    public function pridaj_zakaznika($data = array()){
+
+        $insert = $this->db->insert('Zakazik',$data);
+
+        if($insert){
+            return  $this->db->insert_id();}
+        else{
+            return false;}
+
+    }
 }
 
 
