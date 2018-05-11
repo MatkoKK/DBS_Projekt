@@ -11,6 +11,7 @@ class Kurzy extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->model('Kurzy_model');
+        $this->load->library('pagination');
 
     }
 
@@ -234,6 +235,54 @@ class Kurzy extends CI_Controller {
         //zobrazenie formulara pre vlozenie a editaciu dat
         $this->load->view('template/header', $data);
         $this->load->view('Kurzy/pridaj-kurz', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function index_pagination(){
+        $data = array();
+
+        //ziskanie sprav zo session
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }
+        if($this->session->userdata('error_msg')){
+            $data['error_msg'] = $this->session->userdata('error_msg');
+            $this->session->unset_userdata('error_msg');
+        }
+
+        $config = array();
+        $config["base_url"] = base_url() . "index.php/kurzy/index_pagination";
+        $config["total_rows"] = $this->Kurzy_model->record_count();
+        $config["per_page"] = 1;
+        $config["uri_segment"] = 3;
+        //  $config['use_page_numbers'] = TRUE;
+        //$config['num_links'] = $this->Temperatures_model->record_count();
+        $config['cur_tag_open'] = '&nbsp;<a class="page-link">';
+        $config['cur_tag_close'] = '</a>';
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Previous';
+
+        $this->pagination->initialize($config);
+        if($this->uri->segment(3)){
+            $page = ($this->uri->segment(3)) ;
+        }
+        else{
+            $page = 0;
+        }
+        $data["kurzy"] = $this->Kurzy_model->fetch_data($config["per_page"], $page);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+
+        $data['records_per_user'] = $this->Kurzy_model->record_count_per_user();
+        $data['json_records_per_user'] = json_encode($this->Kurzy_model->record_count_per_user_array());
+
+        // $data['temperatures'] = $this->Temperatures_model->getRows();
+        $data['title'] = 'Temperature List';
+
+        //nahratie zoznamu teplot
+        $this->load->view('template/header', $data);
+        $this->load->view('Kurzy/strankovanie', $data);
         $this->load->view('template/footer');
     }
 }
