@@ -18,8 +18,9 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
+
             var jsonData = $.ajax({
-                url: "<?php echo base_url() . 'index.php/temperatures/json_records_per_user' ?>",
+                url: "<?php echo base_url() . 'faktura/getdata' ?>",
                 dataType: "json",
                 async: false
             }).responseText;

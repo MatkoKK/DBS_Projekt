@@ -19,8 +19,9 @@ class Faktura_model extends CI_Model {
             return $query->result_array();
 
         } else {
-            $this->db->select('faktura.idFaktura as id,zakazik.Firma_Meno as meno,faktura.DATUM as datum')
+            $this->db->select('faktura.idFaktura as id,zakazik.Firma_Meno as meno,faktura.DATUM as datum ,SUM(kurzy.Cena) as cena')
                 ->from('zakaznik_kurz')
+                ->join('kurzy ','zakaznik_kurz.IDkurz=kurzy.idKurzy')
                 ->join('zakazik ','zakazik.idZakaznik=zakaznik_kurz.IDzakaznik')
                 ->join('faktura ','faktura.idFaktura=zakaznik_kurz.IDfaktura')
                ->group_by('faktura.idFaktura');

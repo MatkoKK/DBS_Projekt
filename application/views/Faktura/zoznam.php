@@ -18,9 +18,10 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th width="5%">ID</th>
-                        <th width="30%">Zakaznik</th>
-                        <th width="20%">Datum</th>
+                        <th width="10%">Cislo faktury</th>
+                        <th width="25%">Zakaznik</th>
+                        <th width="25%">Datum</th>
+                        <th width="30%">Suma</th>
 
 
                     </tr>
@@ -28,10 +29,11 @@
                     <tbody id="userData">
                     <?php if(!empty($faktury)): foreach($faktury as $faktura): ?>
                         <tr>
-                            <td><?php echo '#'.$faktura['id']; ?></td>
+                            <td><?php echo $faktura['id']; ?></td>
                             <td><?php echo $faktura['meno']; ?></td>
                             <td><?php echo $faktura['datum']; ?></td>
-                            <td><a href="<?php echo site_url('faktura/VratPolozky'."/?id=".$faktura['id']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
+                            <td><?php echo $faktura['cena']."€"; ?></td>
+                            <td><a href="<?php echo site_url('faktura/VratPolozky'."/?id=".$faktura['id']); ?>" class="glyphicon glyphicon-eye-open pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">No kurses</td></tr>
@@ -42,3 +44,4 @@
         </div>
     </div>
 </div>
+<div id="chart_div"></div>

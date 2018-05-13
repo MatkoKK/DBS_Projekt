@@ -31,7 +31,7 @@
 
                             <td><?php echo $lektor->Meno; ?></td>
                             <td><?php echo $lektor->Priezvisko; ?></td>
-                            <td><a href="<?php echo site_url('lektor/LektorKurz'."/?id=".$lektor->idLektor); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('lektor/LektorKurz'."/?id=".$lektor->idLektor); ?>" class="glyphicon glyphicon-eye-open pull-right" ></a></td>
                             <td><a href="<?php echo site_url('lektor/edit'."/?id=".$lektor->idLektor); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
                             <td><a href="<?php echo site_url('lektor/OdstranLektora'."/?id=".$lektor->idLektor); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
                         </tr>

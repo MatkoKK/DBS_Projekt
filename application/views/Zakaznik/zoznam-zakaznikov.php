@@ -34,10 +34,9 @@
                             <td><?php echo $zakaznik['firma_priezvisko']; ?></td>
                             <td><?php if($zakaznik['ICO']=='0')echo "súkromná osoba" ; else echo $zakaznik['ICO']; ?></td>
                             <td><?php if($zakaznik['JeFirma']==1) echo "firma"; else echo "sukromná osoba"; ?></td>
-                            <td><a href="<?php echo site_url('zakaznik/edit'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('zakaznik/LektorKurz'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('zakaznik/OdstranZakaznika'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('zakaznik/kupaKurzu'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('zakaznik/edit'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('zakaznik/OdstranZakaznika'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-remove-circle pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('zakaznik/kupaKurzu'."/?id=".$zakaznik['idZakaznik']); ?>" class=" glyphicon glyphicon-usd pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">Žiadny zákazík</td></tr>

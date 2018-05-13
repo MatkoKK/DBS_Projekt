@@ -28,7 +28,7 @@
                     <tbody id="userData">
                     <?php if(!empty($polozky)): foreach($polozky as $polozka): ?>
                         <tr>
-                            <td><?php echo '#'.$polozka['nazov']; ?></td>
+                            <td><?php echo $polozka['nazov']; ?></td>
                             <td><?php echo $polozka['cena']; ?></td>
 
                         </tr>

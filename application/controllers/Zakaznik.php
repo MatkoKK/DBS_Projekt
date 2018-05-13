@@ -246,7 +246,7 @@ class Zakaznik extends CI_Controller {
                 }else{
                     $data['error_msg'] = 'Problém, skús znovu.';
                 }
-            
+
         }
         $data['kurzy'] = $this->Zakaznik_model->get_kurz_dropdown();
         $data['kurzOznaceny'] = 'Nova faktura';
