@@ -7,7 +7,10 @@ class Lektor_model extends CI_Model {
 
     function getRows($id = "")
     {
+
+
         if (!empty($id)) {
+
             $query = $this->db->get_where('lektor', array('idLektor' => $id));
             return $query->result_array();
 
@@ -18,13 +21,32 @@ class Lektor_model extends CI_Model {
     }
 
 
+    function getRowsStrankovanie($limit,$start){
+
+           $this->db->limit($limit,$start);
+           $query = $this->db->get("lektor");
+           if ($query->num_rows() > 0) {
+               foreach ($query->result() as $row) {
+                   $data[] = $row;
+               }
+               return $data;
+           }
+           return false;
+
+    }
+
+    public function record_count (){
+        return $this->db->count_all("kurzy");
+    }
+
+
 
     public function insert($data = array()){
 
         $insert = $this->db->insert('lektor',$data);
 
         if($insert){
-            return  $this->db->insert_id();}
+            return  true;}
         else{
             return false;}
 
@@ -33,7 +55,7 @@ class Lektor_model extends CI_Model {
 
     public function update($data,$id){
         if(!empty($data) && !empty($id)){
-            $update = $this->db->update('kurzy',$data,array('id'=>$id));
+            $update = $this->db->update('lektor',$data,array('idLektor'=>$id));
             return $update?true:false;
 
         }
@@ -43,7 +65,12 @@ class Lektor_model extends CI_Model {
 
 
     public function delete($id){
-        $delete = $this->db->delete('kurzy',array('id'=>$id));
+
+        $this->db->delete( 'Lektor_Kurz',array('idLektor'=>$id));
+        $delete = $this->db->delete( 'lektor',array('idLektor'=>$id));
+
+
+
         return $delete?true:false;
 
     }

@@ -17,77 +17,47 @@ class Zakaznik extends CI_Controller {
     public function index(){
         $data = array();
 
+
         $this->data = $data;
-        if($this->session->userdata('succes_msg')){
-            $this->data['success_msg'] = $this->session->userdata('success_msg');
+
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
             $this->session->unset_userdata('success_msg');
-
         }
-
         if($this->session->userdata('error_msg')){
-            $this->data['error_msg'] = $this->session->userdata('success_msg');
+            $data['error_msg'] = $this->session->userdata('error_msg');
             $this->session->unset_userdata('error_msg');
-
         }
 
         $data['zakaznici'] = $this->Zakaznik_model->getRows("");
         $data['title'] = 'Zákazníci zoznam';
 
-        $this->load->view('template/header');
+        $this->load->view('template/header',$data);
+        $this->load->view('template/navigation');
         $this->load->view('Zakaznik/zoznam-zakaznikov',$data);
         $this->load->view('template/footer');
     }
 
+
     // pridanie zaznamu
-    public function add(){
-        $data = array();
-        $postData = array();
-
-        //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
-        if($this->input->post('postSubmit')){
-            //definicia pravidiel validacie
-            $this->form_validation->set_rules('meno', 'meno', 'required');
-
-
-
-            //priprava dat pre vlozenie
-            $postData = array(
-                'meno' => $this->input->post('meno'),
-                'priezvisko' => $this->input->post('priezvisko'),
-                'ico' => $this->input->post('ico'),
-
-            );
-
-            //validacia zaslanych dat
-            if($this->form_validation->run() == true){
-                //vlozenie dat
-                $insert = $this->Temperatures_model->insert($postData);
-
-                if($insert){
-                    $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
-                    redirect('/temperatures');
-                }else{
-                    $data['error_msg'] = 'Some problems occurred, please try again.';
-                }
-            }
-        }
-        $data['users'] = $this->Kurzy_model->get_users_dropdown();
-        $data['users_selected'] = '';
-        $data['post'] = $postData;
-        $data['title'] = 'Create Temperature';
-        $data['action'] = 'Add';
-
-        //zobrazenie formulara pre vlozenie a editaciu dat
-        $this->load->view('templates/header', $data);
-        $this->load->view('Kurzy/add-edit', $data);
-        $this->load->view('templates/footer');
-    }
-
     public function pridaj_zakaznika(){
-        $data = array();
+       /* $data = array();
         $postData = array();
+        $firma=$_GET['firma'];
+        if(firma==1){
+            $Meno='Konatel';
+            $Firma='Nazov firmy';
+            $Ico='ICO';
+            }
+            else{
+                $Meno='Meno';
+                $Firma='Priezvisko';
+                $Ico='ICO';
+            }
+*/
 
         //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
+        $postData ='';
         if($this->input->post('postSubmit')){
             //definicia pravidiel validacie
             $this->form_validation->set_rules('meno', 'meno', 'required');
@@ -96,8 +66,8 @@ class Zakaznik extends CI_Controller {
             //priprava dat pre vlozenie
             if($this->input->post('jefirma')=="")
             $postData = array(
-                'firma_meno' => $this->input->post('meno'),
-                'priezvisko' => $this->input->post('priezvisko'),
+                'Firma_Meno' => $this->input->post('meno'),
+                'firma_priezvisko' => $this->input->post('priezvisko'),
                 'ICO' => $this->input->post('ico'),
                 'JeFirma' => "0");
 
@@ -105,7 +75,7 @@ class Zakaznik extends CI_Controller {
             else
             $postData = array(
                 'firma_meno' => $this->input->post('meno'),
-                'priezvisko' => $this->input->post('priezvisko'),
+                'firma_priezvisko' => $this->input->post('priezvisko'),
                 'ICO' => $this->input->post('ico'),
                 'JeFirma' => $this->input->post('jefirma'),
 
@@ -119,22 +89,177 @@ class Zakaznik extends CI_Controller {
                 $insert = $this->Zakaznik_model->pridaj_zakaznika($postData);
 
                 if($insert){
-                    $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
-                    redirect('/Zakaznik/pridaj_zakaznika');
+                    $this->session->set_userdata('success_msg', 'Zákazník bol pridaný.');
+                    redirect('Zakaznik');
                 }else{
-                    $data['error_msg'] = 'Some problems occurred, please try again.';
+                    $data['error_msg'] = 'Problém, skús znovu.';
                 }
             }
         }
 
 
         $data['post'] = $postData;
-        $data['title'] = 'Create Temperature';
-        $data['action'] = 'Add';
+        $data['title'] = 'Pridaj zakaznika';
+        $data['action'] = 'Pridaj';
+
+        //zobrazenie formulara pre vlozenie a editaciu dat
+        $this->load->view('template/header');
+        $this->load->view('template/navigation');
+        $this->load->view('Zakaznik/pridaj-zkaznika', $data);
+        $this->load->view('template/footer');
+    }
+
+    public  function vratFaktury(){
+        $data = array();
+
+        $this->data = $data;
+        if($this->session->userdata('succes_msg')){
+            $this->data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+
+        }
+
+        if($this->session->userdata('error_msg')){
+            $this->data['error_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('error_msg');
+
+        }
+
+        $data['faktury'] = $this->Zakaznik_model->fakturyZakaznika();
+        $data['title'] = 'Zákazníci zoznam';
+
+        $this->load->view('template/header',$data);
+        $this->load->view('template/navigation');
+        $this->load->view('Zakaznik/ZoznamFaktur',$data);
+        $this->load->view('template/footer');
+
+    }
+
+    public function edit()
+    {
+        $id = $_GET['id'];
+        $data = array();
+        //ziskanie dat z tabulky
+        $postData = $this->Zakaznik_model->getRows($id);
+
+        foreach ($postData as $post)
+
+
+            //zistenie, ci bola zaslana poziadavka na aktualizaciu
+            if ($this->input->post('postSubmit')) {
+                //definicia pravidiel validacie
+                $this->form_validation->set_rules('meno', 'meno', 'required');
+                $this->form_validation->set_rules('priezvisko', 'priezvisko', 'required');
+
+
+                // priprava dat pre aktualizaciu
+                $postData = array(
+                    'Firma_Meno' => $this->input->post('meno'),
+                    'firma_priezvisko' => $this->input->post('priezvisko'),
+                    'ICO' => $this->input->post('ico'),
+                    'JeFirma' => $this->input->post('jefirma'),
+
+
+                );
+
+                //validacia zaslanych dat
+                if ($this->form_validation->run() == true) {
+                    //aktualizacia dat
+                    $update = $this->Zakaznik_model->update($postData, $id);
+
+                    if ($update) {
+                        $this->session->set_userdata('success_msg', 'Zakaznik upravený.');
+                        redirect('/Zakaznik');
+                    } else {
+                        $data['error_msg'] = 'Problém pri úprave , skús neskôr.';
+                    }
+                }
+            }
+
+        $data['post'] = $post;
+        $data['title'] = 'Uprava Zakaznika';
+        $data['action'] = 'Editovanie';
 
         //zobrazenie formulara pre vlozenie a editaciu dat
         $this->load->view('template/header', $data);
         $this->load->view('Zakaznik/pridaj-zkaznika', $data);
+        $this->load->view('template/footer');
+    }
+
+
+    public function OdstranZakaznika(){
+
+        if (isset($_GET['id']) )
+        {
+
+            $idcko = $_GET['id'];
+
+        }
+
+        $zmazane= $this->Zakaznik_model->delete($idcko);
+
+        if ($zmazane) {
+            $this->session->set_userdata('success_msg', 'Zakaznik bol zmazaný.');
+            redirect('/Zakaznik');
+        } else {
+            $data['error_msg'] = 'Vyskytol sa problém.';
+        }
+
+
+
+
+    }
+
+
+    public function kupaKurzu(){
+        //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
+        $postData ='';
+
+        if (isset($_GET['id']) )
+        {
+
+            $idcko = $_GET['id'];
+
+        }
+        if($this->input->post('postSubmit')){
+
+            //priprava dat pre vlozenie
+
+                $postData = array(
+                    'IDkurz' => $this->input->post('idkurz'),
+                    'IDzakaznik' => $idcko,
+            'IDfaktura' => $this->input->post('idfaktura'));
+            echo print_r($postData);
+
+
+
+
+
+            //validacia zaslanych dat
+
+                //vlozenie dat
+                $insert = $this->Zakaznik_model->kupaKurzu($postData);
+
+                if($insert){
+                    $this->session->set_userdata('success_msg', 'Kurz pre zakaznika bol kupeny.');
+                    redirect('Zakaznik');
+                }else{
+                    $data['error_msg'] = 'Problém, skús znovu.';
+                }
+            
+        }
+        $data['kurzy'] = $this->Zakaznik_model->get_kurz_dropdown();
+        $data['kurzOznaceny'] = 'Nova faktura';
+        $data['faktury'] = $this->Zakaznik_model->get_faktura_dropdown();
+        $data['novaFaktura'] = 'Nova faktura';
+        $data['post'] = $postData;
+        $data['title'] = 'Kupa kurzu';
+        $data['action'] = 'Kupa';
+
+        //zobrazenie formulara pre vlozenie a editaciu dat
+        $this->load->view('template/header',$data);
+        $this->load->view('template/navigation');
+        $this->load->view('Zakaznik/kupKurz', $data);
         $this->load->view('template/footer');
     }
 

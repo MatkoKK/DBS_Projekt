@@ -9,12 +9,12 @@
         </div>
     <?php } ?>
     <div class="row">
-        <h1>List kurzov</h1>
+        <h1>Zoznam kurzov</h1>
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default ">
-                <div class="panel-heading">Kurzy <a href="<?php echo site_url('kurzy/add/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
+                <div class="panel-heading">Pridať kurz<a href="<?php echo site_url('kurzy/add/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
                 <div class="panel-heading">PridajZakaznika <a href="<?php echo site_url('zakaznik/pridaj_zakaznika/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
                 <table class="table table-striped">
                     <thead>
@@ -36,6 +36,7 @@
                             <td><a href="<?php echo site_url('kurzy/pridaj_lektora'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-user pull-right" ></a></td>
                             <td><a href="<?php echo site_url('kurzy/edit'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
                             <td><a href="<?php echo site_url('kurzy/KurzLektory'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/OdstranKurz'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
 
                         </tr>
                     <?php endforeach; else: ?>

@@ -9,32 +9,32 @@
         </div>
     <?php } ?>
     <div class="row">
-        <h1>Lektory v kurze</h1>
+        <h1>Faktúry</h1>
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default ">
+
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th width="5%">ID</th>
+                        <th width="30%">Zakaznik</th>
+                        <th width="20%">Datum</th>
 
-                        <th width="30%">Meno</th>
-                        <th width="20%">Priezvisko</th>
-                        <th width="30%">Kurz</th>
 
                     </tr>
                     </thead>
                     <tbody id="userData">
-                    <?php if(!empty($kurzs)): foreach($kurzs as $kurz): ?>
+                    <?php if(!empty($faktury)): foreach($faktury as $faktura): ?>
                         <tr>
-
-                            <td><?php echo $kurz['meno']; ?></td>
-                            <td><?php echo $kurz['priezvisko']; ?></td>
-                            <td><?php echo $kurz['kurz']; ?></td>
-                            <td><a href="<?php echo site_url('kurzy/odstran_lektora'."/?id=".$kurz['idKurz']."&idRow=".$kurz['id']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
+                            <td><?php echo '#'.$faktura['id']; ?></td>
+                            <td><?php echo $faktura['meno']; ?></td>
+                            <td><?php echo $faktura['datum']; ?></td>
+                            <td><a href="<?php echo site_url('faktura/VratPolozky'."/?id=".$faktura['id']); ?>" class="glyphicon glyphicon-plus pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
-                        <tr><td colspan="4">Tento kurz nemá zatiaľ žiadny lektor</td></tr>
+                        <tr><td colspan="4">No kurses</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>

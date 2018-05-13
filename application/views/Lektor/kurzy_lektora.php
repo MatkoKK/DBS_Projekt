@@ -9,19 +9,17 @@
         </div>
     <?php } ?>
     <div class="row">
-        <h1>List kurzov</h1>
+        <h1> <?php if(!empty($kurzs)){ $kurz=$kurzs[0];  echo "Kurzy lektora :". $kurz ['meno'] ." ". $kurz ['priezvisko'] ; } else echo"Lektor nemá žiadne kurzy"?></h1>
     </div>
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default ">
-                <div class="panel-heading">Kurzy <a href="<?php echo site_url('Lektor/PridajLektora/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
-                <div class="panel-heading">PridajZakaznika <a href="<?php echo site_url('zakaznik/pridaj_zakaznika/'); ?>" class="glyphicon glyphicon-plus pull-right" ></a></div>
+
                 <table class="table table-striped">
                     <thead>
                     <tr>
 
-                        <th width="30%">Meno</th>
-                        <th width="20%">Priezvisko</th>
+
                         <th width="30%">Kurzy</th>
 
                     </tr>
@@ -29,13 +27,12 @@
                     <tbody id="userData">
                     <?php if(!empty($kurzs)): foreach($kurzs as $kurz): ?>
                         <tr>
-                            <td><?php echo $kurz['meno']; ?></td>
-                            <td><?php echo $kurz['priezvisko']; ?></td>
+
                             <td><?php echo $kurz['kurz']; ?></td>
 
                         </tr>
                     <?php endforeach; else: ?>
-                        <tr><td colspan="4">No kurses</td></tr>
+                        <tr><td colspan="4">Žiadne priradené kurzy</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>

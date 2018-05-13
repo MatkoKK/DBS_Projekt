@@ -18,6 +18,9 @@ class Kurzy_model extends CI_Model {
 }
 
 
+
+
+
 public function update($data,$id){
     if(!empty($data) && !empty($id)){
         $update = $this->db->update('kurzy',$data,array('idKurzy'=>$id));
@@ -29,11 +32,22 @@ public function update($data,$id){
 }
 
 
+
+
+
 public function delete($id){
-    $delete = $this->db->delete('kurzy',array('id'=>$id));
+    $this->db->delete( 'Zakaznik_kurz',array('idKurz'=>$id));
+    $this->db->delete( 'Lektor_Kurz',array('idKurz'=>$id));
+    $this->db->delete( 'Lektor_Kurz',array('idKurz'=>$id));
+    $delete = $this->db->delete('kurzy',array('idKurzy'=>$id) );
+
+
     return $delete?true:false;
 
 }
+
+
+
 
     //  naplnenie selectu z tabulky users
     public function get_lektor_dropdown($id = ""){
@@ -53,15 +67,23 @@ public function delete($id){
         }
     }
 
+
+
+
+
     // vlozenie zaznamu
     public function insertLektor($data = array()) {
         $insert = $this->db->insert('lektor_kurz', $data);
         if($insert){
-            return $this->db->insert_id();
+            return true;
         }else{
             return false;
         }
     }
+
+
+
+
 
     // vlozenie zaznamu
     public function insert($data = array()) {
@@ -72,6 +94,9 @@ public function delete($id){
             return false;
         }
     }
+
+
+
 
 
     function KurzyLektora($id) {
@@ -93,11 +118,18 @@ public function delete($id){
         }
     }
 
+
+
+
     public function vymazLektora($id){
         $delete = $this->db->delete('lektor_kurz',array('id'=>$id));
         return $delete?true:false;
 
     }
+
+
+
+
 
     public function fetch_data($limit,$start) {
         $this->db->limit($limit,$start);
@@ -111,6 +143,10 @@ public function delete($id){
         return false;
     }
 
+
+
+
+
     public function record_count_per_user() {
         //$this->db->select('');
         $this->db->from('lektor');
@@ -119,11 +155,15 @@ public function delete($id){
         return $this->db->get();
     }
 
+
+
+
+
     public function record_count_per_user_array() {
-       // $this->db->select('CONCAT(lastname," ", firstname) AS user, COUNT(temperatures.id) AS counts');
-        $this->db->from('kurzy');
+        $this->db->select('COUNT(faktura.idfaktura) AS counts');
+        $this->db->from('faktura');
         //$this->db->join('users','temperatures.user = users.id');
-        //$this->db->group_by('temperatures.user');
+        //$this->db->group_by('faktura.Zakaznik');
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -131,6 +171,9 @@ public function delete($id){
     public function record_count (){
         return $this->db->count_all("kurzy");
     }
+
+
+
 
 }
 

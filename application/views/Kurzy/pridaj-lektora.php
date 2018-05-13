@@ -12,12 +12,12 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo $action; ?> Kurzy <a href="<?php echo site_url('Kurzy/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
+                <div class="panel-heading"><?php echo $action; ?> lektora ku kurzu <a href="<?php echo site_url('Kurzy/'); ?>" class="glyphicon glyphicon-arrow-left pull-right"></a></div>
                 <div class="panel-body">
                     <form method="post" action="" class="form">
                         <div class="form-group">
-                            <?php echo form_label('Idcko'); ?>
-                            <?php echo form_dropdown('idecko', $users, $users_selected, 'class="form-control"'); ?>
+                            <?php echo form_label('Lektor'); ?>
+                            <?php echo form_dropdown('idecko', $users, $users_selected, 'name="idecko" class="form-control"'); ?>
                         </div>
 
 

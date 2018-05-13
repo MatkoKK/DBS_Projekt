@@ -18,32 +18,39 @@ class Kurzy extends CI_Controller {
     public function index(){
         $data = array();
 
-        $this->data = $data;
-        if($this->session->userdata('succes_msg')){
-            $this->data['success_msg'] = $this->session->userdata('success_msg');
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
             $this->session->unset_userdata('success_msg');
-
         }
-
         if($this->session->userdata('error_msg')){
-            $this->data['error_msg'] = $this->session->userdata('success_msg');
+            $data['error_msg'] = $this->session->userdata('error_msg');
             $this->session->unset_userdata('error_msg');
-
         }
 
         $data['kurzy'] = $this->Kurzy_model->getRows("");
         $data['title'] = 'Kurzy zoznam';
 
-        $this->load->view('template/header');
+        $this->load->view('template/header',$data);
         $this->load->view('template/navigation');
         $this->load->view('home',$data);
         $this->load->view('template/footer');
     }
 
+
+
     // pridanie zaznamu
     public function add(){
         $data = array();
         $postData = array();
+
+        if($this->session->userdata('success_msg')){
+            $data['success_msg'] = $this->session->userdata('success_msg');
+            $this->session->unset_userdata('success_msg');
+        }
+        if($this->session->userdata('error_msg')){
+            $data['error_msg'] = $this->session->userdata('error_msg');
+            $this->session->unset_userdata('error_msg');
+        }
 
         //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
         if($this->input->post('postSubmit')){
@@ -67,10 +74,10 @@ class Kurzy extends CI_Controller {
                 $insert = $this->Kurzy_model->insert($postData);
 
                 if($insert){
-                    $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
+                    $this->session->set_userdata('success_msg', 'Kurz bol pridaný.');
                     redirect('/kurzy');
                 }else{
-                    $data['error_msg'] = 'Some problems occurred, please try again.';
+                    $data['error_msg'] = 'Problém, skús znovu.';
                 }
             }
         }
@@ -87,39 +94,45 @@ class Kurzy extends CI_Controller {
     }
 
 
+
+/* Priradenie Lektora ku kurzu*/
     public function pridaj_lektora(){
         $data = array();
         $postData = array();
 
 
         //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
-        if($this->input->post('postSubmit')){
-            if (isset($_GET['id']))
-            {
-                $idkurzu = $_GET['id'];
+        if($this->input->post('postSubmit')) {
 
-            }
-
-
-            //priprava dat pre vlozenie
-            $postData = array(
-                'idLektor' => $this->input->post('idecko'),
-                'idKurz' => $idkurzu,
-            );
+            if (isset($_GET['id'])){
+                $idkurzu = $_GET['id'];}
 
 
 
-            //vlozenie dat
-                $insertLektor = $this->Kurzy_model->insertLektor($postData);
 
-                if($insertLektor){
-                    $this->session->set_userdata('success_msg', 'Temperature has been added successfully.');
-                    redirect('/kurzy');
-                }else{
-                    $data['error_msg'] = 'Some problems occurred, please try again.';
+                //definicia pravidiel validacie
+                $this->form_validation->set_rules('idecko', 'idecko', 'required');
+
+                //priprava dat pre vlozenie
+                $postData = array(
+                    'idLektor' => $this->input->post('idecko'),
+                    'idKurz' => $idkurzu,
+                );
+
+
+                //vlozenie dat
+                if ($this->form_validation->run() == true) {
+                    $insertLektor = $this->Kurzy_model->insertLektor($postData);
+
+                    if ($insertLektor) {
+                        $this->session->set_userdata('success_msg', 'Lektor priradeny.');
+                        redirect('/kurzy');
+                    } else {
+                        $data['error_msg'] = 'Vyskytol sa problém.';
+                    }
                 }
 
-        }
+            }
 
         $data['users'] = $this->Kurzy_model->get_lektor_dropdown();
         $data['users_selected'] = '';
@@ -133,6 +146,9 @@ class Kurzy extends CI_Controller {
         $this->load->view('Kurzy/pridaj-lektora', $data);
         $this->load->view('template/footer');
     }
+
+
+
 
 
     public function odstran_lektora(){
@@ -152,6 +168,33 @@ class Kurzy extends CI_Controller {
 
     }
 
+
+    public function OdstranKurz(){
+
+        if (isset($_GET['id']) )
+        {
+
+            $idcko = $_GET['id'];
+
+        }
+
+       $zmazane= $this->Kurzy_model->delete($idcko);
+
+        if ($zmazane) {
+            $this->session->set_userdata('success_msg', 'Kurz bol zmazaný.');
+            redirect('/Kurzy');
+        } else {
+            $data['error_msg'] = 'Vyskytol sa problém.';
+        }
+
+
+
+
+    }
+
+
+
+
     public function KurzLektory(){
         $data = array();
 
@@ -159,7 +202,7 @@ class Kurzy extends CI_Controller {
         if (isset($_GET['id']))
         {
             $idkurzu = $_GET['id'];
-            echo $idkurzu;
+
         }
 
 
@@ -270,6 +313,9 @@ class Kurzy extends CI_Controller {
         else{
             $page = 0;
         }
+
+
+
         $data["kurzy"] = $this->Kurzy_model->fetch_data($config["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
@@ -283,6 +329,52 @@ class Kurzy extends CI_Controller {
         //nahratie zoznamu teplot
         $this->load->view('template/header', $data);
         $this->load->view('Kurzy/strankovanie', $data);
+        $this->load->view('template/footer');
+    }
+
+
+    public function Faktura_kurz(){
+        $data = array();
+        $postData = array();
+
+
+        //zistenie, ci bola zaslana poziadavka na pridanie zazanmu
+        if($this->input->post('postSubmit')){
+            if (isset($_GET['id']))
+            {
+                $idkurzu = $_GET['id'];
+                echo $idkurzu;
+            }
+
+            //priprava dat pre vlozenie
+            $postData = array(
+                'idLektor' => $this->input->post('idlektor'),
+                'idKurz' => $idkurzu,
+            );
+
+            //validacia zaslanych dat
+            //vlozenie dat
+            $insertLektor = $this->Faktury_model->insert($postData);
+
+            if($insertLektor){
+                $this->session->set_userdata('success_msg', 'Kurz bol pridaný do faktúry.');
+                redirect('/kurzy');
+            }else{
+                $data['error_msg'] = 'Problem.';
+            }
+
+        }
+
+        $data['users'] = $this->Zakaznik_model->get_zakaznik_dropdown();
+        $data['users_selected'] = '';
+        $data['post'] = $postData;
+        $data['title'] = 'Create Temperature';
+        $data['action'] = 'Pridaj';
+
+        //zobrazenie formulara pre vlozenie a editaciu dat
+        $this->load->view('template/header', $data);
+        $this->load->view('template/navigation/index');
+        $this->load->view('Kurzy/pridaj-lektora', $data);
         $this->load->view('template/footer');
     }
 }
