@@ -19,6 +19,7 @@
                     <thead>
                     <tr>
                         <th width="5%">Kurz</th>
+                        <th width="30%">Level</th>
                         <th width="30%">cena</th>
 
 
@@ -29,11 +30,13 @@
                     <?php if(!empty($polozky)): foreach($polozky as $polozka): ?>
                         <tr>
                             <td><?php echo $polozka['nazov']; ?></td>
+                            <td><?php echo $polozka['lvl']; ?></td>
                             <td><?php echo $polozka['cena']; ?></td>
+                            <td><a href="<?php echo site_url('faktura/OdstranKurz'."/?id=".$polozka['idcko']."&idfaktura=".$polozka['idfaktura']); ?>" class="glyphicon glyphicon-eye-open pull-right" ></a></td>
 
                         </tr>
                     <?php endforeach; else: ?>
-                        <tr><td colspan="4">No kurses</td></tr>
+                        <tr><td colspan="4">Faktúra nemá žiadne kurzy</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>

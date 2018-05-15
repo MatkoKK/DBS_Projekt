@@ -29,21 +29,27 @@
                     <tbody id="userData">
                     <?php if(!empty($kurzy)): foreach($kurzy as $kurz): ?>
                         <tr>
-                            <td><?php echo '#'.$kurz['idKurzy']; ?></td>
-                            <td><?php echo $kurz['Nazov']; ?></td>
-                            <td><?php echo $kurz['Level']; ?></td>
-                            <td><?php echo $kurz['Cena'];?></td>
-                            <td><a href="<?php echo site_url('kurzy/pridaj_lektora'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-user pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('kurzy/edit'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('kurzy/KurzLektory'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-eye-open pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('kurzy/OdstranKurz'."/?id=".$kurz['idKurzy']); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
-
+                            <td><?php echo '#'.$kurz->idKurzy; ?></td>
+                            <td><?php echo $kurz->Nazov; ?></td>
+                            <td><?php echo $kurz->Level; ?></td>
+                            <td><?php echo $kurz->Cena;?></td>
+                            <td><a href="<?php echo site_url('kurzy/pridaj_lektora'."/?id=".$kurz->idKurzy); ?>" class="glyphicon glyphicon-user pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/edit'."/?id=".$kurz->idKurzy); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/KurzLektory'."/?id=".$kurz->idKurzy); ?>" class="glyphicon glyphicon-eye-open pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('kurzy/OdstranKurz'."/?id=".$kurz->idKurzy); ?>" class="glyphicon glyphicon-remove pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
-                        <tr><td colspan="4">No kurses</td></tr>
+                        <tr><td colspan="4">Žiadne kurzy</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>
+                <div id="pagination" style="align-content: center">
+                    <ul class="pagination">
+                        <!-- Show pagination links -->
+                        <?php foreach ($links as $link) {
+                            echo "<li class=\"page-item\">". $link."</li>";
+                        } ?>
+                </div>
             </div>
         </div>
     </div>

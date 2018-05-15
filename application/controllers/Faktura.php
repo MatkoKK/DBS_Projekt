@@ -35,7 +35,32 @@ class Faktura extends CI_Controller {
 
         }
 
-        $data['faktury'] = $this->Faktura_model->getRows("");
+        $config = array();
+        $config["base_url"] = base_url() . "/faktura/index";
+        $config["total_rows"] = $this->Faktura_model->record_count();
+        $config["per_page"] = 5;
+        $config["uri_segment"] = 3;
+        //  $config['use_page_numbers'] = TRUE;
+        //$config['num_links'] = $this->Temperatures_model->record_count();
+        $config['cur_tag_open'] = '&nbsp;<a class="page-link">';
+        $config['cur_tag_close'] = '</a>';
+        $config['next_link'] = '>';
+        $config['prev_link'] = '<';
+
+        $this->pagination->initialize($config);
+        if($this->uri->segment(3)){
+            $page = ($this->uri->segment(3)) ;
+        }
+        else{
+            $page = 0;
+        }
+
+
+
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+
+        $data['faktury'] = $this->Faktura_model->getRowsStrankovanie($config["per_page"],$page);
         $data['title'] = 'Faktury zoznam';
 
         $this->load->view('template/header');
@@ -132,5 +157,31 @@ class Faktura extends CI_Controller {
         echo json_encode($data);
     }
 
+
+    public function OdstranKurz(){
+
+        if (isset($_GET['id']) && isset($_GET['idfaktura']))
+        {
+
+
+            $idcko = $_GET['id'];
+            $idfaktura = $_GET['idfaktura'];
+
+
+        }
+        echo $idfaktura. $idcko;
+        $zmazane= $this->Faktura_model->delete($idcko);
+
+        if ($zmazane) {
+            $this->session->set_userdata('success_msg', 'Kurz bol odobratý z faktúry s číslom :'.$idfaktura);
+            redirect('/faktura/VratPolozky/?id='.$idfaktura);
+        } else {
+            $data['error_msg'] = 'Vyskytol sa problém.';
+        }
+
+
+
+
+    }
 
 }

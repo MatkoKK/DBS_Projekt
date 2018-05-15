@@ -27,7 +27,35 @@ class Kurzy extends CI_Controller {
             $this->session->unset_userdata('error_msg');
         }
 
-        $data['kurzy'] = $this->Kurzy_model->getRows("");
+/*Strankovanie config*/
+        $config = array();
+        $config["base_url"] = base_url() . "/Kurzy/index";
+        $config["total_rows"] = $this->Kurzy_model->record_count();
+        $config["per_page"] = 5;
+        $config["uri_segment"] = 3;
+        //  $config['use_page_numbers'] = TRUE;
+        //$config['num_links'] = $this->Temperatures_model->record_count();
+        $config['cur_tag_open'] = '&nbsp;<a class="page-link">';
+        $config['cur_tag_close'] = '</a>';
+        $config['next_link'] = 'ďalšia';
+        $config['prev_link'] = 'predchádzajúca';
+
+        $this->pagination->initialize($config);
+        if($this->uri->segment(3)){
+            $page = ($this->uri->segment(3)) ;
+        }
+        else{
+            $page = 0;
+        }
+
+
+
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+
+
+
+        $data['kurzy'] = $this->Kurzy_model->getRowsStrankovanie($config["per_page"],$page);;
         $data['title'] = 'Kurzy zoznam';
 
         $this->load->view('template/header',$data);

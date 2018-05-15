@@ -30,19 +30,26 @@
                     <tbody id="userData">
                     <?php if(!empty($zakaznici)): foreach($zakaznici as $zakaznik): ?>
                         <tr>
-                            <td><?php echo $zakaznik['Firma_Meno']; ?></td>
-                            <td><?php echo $zakaznik['firma_priezvisko']; ?></td>
-                            <td><?php if($zakaznik['ICO']=='0')echo "súkromná osoba" ; else echo $zakaznik['ICO']; ?></td>
-                            <td><?php if($zakaznik['JeFirma']==1) echo "firma"; else echo "sukromná osoba"; ?></td>
-                            <td><a href="<?php echo site_url('zakaznik/edit'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('zakaznik/OdstranZakaznika'."/?id=".$zakaznik['idZakaznik']); ?>" class="glyphicon glyphicon-remove-circle pull-right" ></a></td>
-                            <td><a href="<?php echo site_url('zakaznik/kupaKurzu'."/?id=".$zakaznik['idZakaznik']); ?>" class=" glyphicon glyphicon-usd pull-right" ></a></td>
+                            <td><?php echo $zakaznik->Firma_Meno; ?></td>
+                            <td><?php echo $zakaznik->firma_priezvisko; ?></td>
+                            <td><?php if($zakaznik->ICO=='0')echo "súkromná osoba" ; else echo $zakaznik->ICO; ?></td>
+                            <td><?php if($zakaznik->JeFirma==1) echo "firma"; else echo "sukromná osoba"; ?></td>
+                            <td><a href="<?php echo site_url('zakaznik/edit'."/?id=".$zakaznik->idZakaznik); ?>" class="glyphicon glyphicon-pencil pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('zakaznik/OdstranZakaznika'."/?id=".$zakaznik->idZakaznik); ?>" class="glyphicon glyphicon-remove-circle pull-right" ></a></td>
+                            <td><a href="<?php echo site_url('zakaznik/kupaKurzu'."/?id=".$zakaznik->idZakaznik); ?>" class=" glyphicon glyphicon-usd pull-right" ></a></td>
                         </tr>
                     <?php endforeach; else: ?>
                         <tr><td colspan="4">Žiadny zákazík</td></tr>
                     <?php endif; ?>
                     </tbody>
                 </table>
+                <div id="pagination" style="align-content: center">
+                    <ul class="pagination">
+                        <!-- Show pagination links -->
+                        <?php foreach ($links as $link) {
+                            echo "<li class=\"page-item\">". $link."</li>";
+                        } ?>
+                </div>
             </div>
         </div>
     </div>

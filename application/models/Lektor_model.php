@@ -36,7 +36,7 @@ class Lektor_model extends CI_Model {
     }
 
     public function record_count (){
-        return $this->db->count_all("kurzy");
+        return $this->db->count_all("lektor");
     }
 
 

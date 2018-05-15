@@ -36,8 +36,8 @@ class Lektor extends CI_Controller {
         //$config['num_links'] = $this->Temperatures_model->record_count();
         $config['cur_tag_open'] = '&nbsp;<a class="page-link">';
         $config['cur_tag_close'] = '</a>';
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
+        $config['next_link'] = '>';
+        $config['prev_link'] = '<';
 
         $this->pagination->initialize($config);
         if($this->uri->segment(3)){

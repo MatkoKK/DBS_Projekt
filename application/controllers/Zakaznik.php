@@ -11,6 +11,8 @@ class Zakaznik extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->model('Zakaznik_model');
+        $this->load->model('Faktura_model');
+        $this->load->library('pagination');
 
     }
 
@@ -29,7 +31,32 @@ class Zakaznik extends CI_Controller {
             $this->session->unset_userdata('error_msg');
         }
 
-        $data['zakaznici'] = $this->Zakaznik_model->getRows("");
+        $config = array();
+        $config["base_url"] = base_url() . "/zakaznik/index";
+        $config["total_rows"] = $this->Zakaznik_model->record_count();
+        $config["per_page"] = 5;
+        $config["uri_segment"] = 3;
+        //  $config['use_page_numbers'] = TRUE;
+        //$config['num_links'] = $this->Temperatures_model->record_count();
+        $config['cur_tag_open'] = '&nbsp;<a class="page-link">';
+        $config['cur_tag_close'] = '</a>';
+        $config['next_link'] = '>';
+        $config['prev_link'] = '<';
+
+        $this->pagination->initialize($config);
+        if($this->uri->segment(3)){
+            $page = ($this->uri->segment(3)) ;
+        }
+        else{
+            $page = 0;
+        }
+
+
+
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+
+        $data['zakaznici'] = $this->Zakaznik_model->getRowsStrankovanie($config["per_page"],$page);
         $data['title'] = 'Zákazníci zoznam';
 
         $this->load->view('template/header',$data);
@@ -229,7 +256,7 @@ class Zakaznik extends CI_Controller {
                     'IDkurz' => $this->input->post('idkurz'),
                     'IDzakaznik' => $idcko,
             'IDfaktura' => $this->input->post('idfaktura'));
-            echo print_r($postData);
+
 
 
 
@@ -238,20 +265,36 @@ class Zakaznik extends CI_Controller {
             //validacia zaslanych dat
 
                 //vlozenie dat
+            if(!$this->input->post('idfaktura')=='' && !$this->input->post('idkurz')==''){
                 $insert = $this->Zakaznik_model->kupaKurzu($postData);
-
                 if($insert){
-                    $this->session->set_userdata('success_msg', 'Kurz pre zakaznika bol kupeny.');
+                    $this->session->set_userdata('success_msg', 'Kurz pre zakaznika bol kupeny. A priadaný na faktúru s čislom: '.$postData['IDfaktura']);
                     redirect('Zakaznik');
                 }else{
                     $data['error_msg'] = 'Problém, skús znovu.';
                 }
+            }
+
+                else{
+                if(!$this->input->post('idkurz')==''){
+                    $date = date('Y-m-d H:i:s');
+                    $data= array(
+                        'DATUM' => $date,
+                        'Zakaznik' => $idcko
+                        );
+
+                    $idFaktury=$this->Faktura_model->NovaFaktura($data);
+                    $postData['IDfaktura']=$idFaktury;
+                    $this->Zakaznik_model->kupaKurzu($postData);
+                     $data['success_msg']=( 'Kurz pre zakaznika bol kupeny.A evidovaný v novej faktúre s číslom :'.$idFaktury);}
+            else  $data['error_msg'] = 'Nebol vybratý žiadny kurz';}
+
 
         }
         $data['kurzy'] = $this->Zakaznik_model->get_kurz_dropdown();
-        $data['kurzOznaceny'] = 'Nova faktura';
+        $data['kurzOznaceny'] = '';
         $data['faktury'] = $this->Zakaznik_model->get_faktura_dropdown();
-        $data['novaFaktura'] = 'Nova faktura';
+        $data['novaFaktura'] = '';
         $data['post'] = $postData;
         $data['title'] = 'Kupa kurzu';
         $data['action'] = 'Kupa';

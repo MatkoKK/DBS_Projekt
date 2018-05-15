@@ -30,10 +30,33 @@ class Faktura_model extends CI_Model {
         }
     }
 
+    function getRowsStrankovanie($limit,$start){
 
-    public function insert($data = array()){
+        $this->db->select('faktura.idFaktura as id,zakazik.Firma_Meno as meno,faktura.DATUM as datum ,SUM(kurzy.Cena) as cena')
+            ->from('zakaznik_kurz')
+            ->join('kurzy ','zakaznik_kurz.IDkurz=kurzy.idKurzy')
+            ->join('zakazik ','zakazik.idZakaznik=zakaznik_kurz.IDzakaznik')
+            ->join('faktura ','faktura.idFaktura=zakaznik_kurz.IDfaktura')
+            ->group_by('faktura.idFaktura');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return false;
 
-        $insert = $this->db->insert('kurzy',$data);
+    }
+
+    public function record_count (){
+        return $this->db->count_all("faktura");
+    }
+
+
+    public function NovaFaktura($data = array()){
+
+        $insert = $this->db->insert('faktura',$data);
 
         if($insert){
             return  $this->db->insert_id();}
@@ -55,7 +78,7 @@ class Faktura_model extends CI_Model {
 
 
     public function delete($id){
-        $delete = $this->db->delete('kurzy',array('id'=>$id));
+        $delete = $this->db->delete('zakaznik_kurz',array('id'=>$id));
         return $delete?true:false;
 
     }
@@ -77,32 +100,6 @@ class Faktura_model extends CI_Model {
         }
     }
 
-
-
-
-    public function pridaj_zakaznika($data = array()){
-
-        $insert = $this->db->insert('Zakazik',$data);
-
-        if($insert){
-            return  $this->db->insert_id();}
-        else{
-            return false;}
-
-    }
-
-    public function pridanieKurzu($data = array()){
-
-        $insert = $this->db->insert('Zakazik',$data);
-
-        if($insert){
-            return  $this->db->insert_id();}
-        else{
-            return false;}
-    }
-
-
-
     public function VratFaktury() {
         $this->db->select('SUM(kurzy.Cena) as cena');
         $this->db->from('zakaznik_kurz')
@@ -116,15 +113,17 @@ class Faktura_model extends CI_Model {
 
     function Polozky($id)
     {
-        $this->db->select('kurzy.Nazov as nazov,kurzy.Cena as cena')
+        $this->db->select('zakaznik_kurz.id as idcko,kurzy.Nazov as nazov,kurzy.Cena as cena,zakaznik_kurz.IDfaktura as idfaktura,kurzy.Level as lvl')
                 ->from('zakaznik_kurz')
                 ->join('kurzy ','kurzy.idKurzy=zakaznik_kurz.IDkurz')
-                ->join('faktura ','zakaznik_kurz.IDfaktura='.$id);
-            $query = $this->db->get();
+                ->join('faktura ','zakaznik_kurz.IDfaktura=faktura.idFaktura');
+        $query = $this->db->get_where('', array('faktura.idFaktura' => $id));
             return $query->result_array();
 
 
     }
+
+
 
 }
 
